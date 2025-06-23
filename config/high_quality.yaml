@@ -1,0 +1,66 @@
+# High Quality training configuration - optimized for better metrics
+name: "high_quality"
+description: "High quality training configuration with optimized parameters for better PSNR, SSIM, and LPIPS"
+
+# Paths configuration
+paths:
+  source_path: "data"
+  model_path: "output/high_quality_model"
+
+# Training parameters
+training:
+  iterations: 30000  # 恢复为高质量训练的完整迭代次数
+  eval: true
+  disable_viewer: true
+  
+  # 继续训练配置
+  resume_training: false
+  resume_from_iteration: -1
+  
+  # Densification parameters - 更细致的密化策略
+  densify_grad_threshold: 0.0002  # 降低阈值，更敏感的密化
+  densification_interval: 100     # 更频繁的密化
+  densify_until_iter: 20000      # 延长密化时间
+  opacity_reset_interval: 3000   # 标准透明度重置间隔
+  
+  # Learning rates - 更精细的学习率调度
+  position_lr_init: 0.00016      # 标准初始位置学习率
+  position_lr_final: 0.0000016   # 标准最终位置学习率
+  position_lr_delay_mult: 0.01   # 位置学习率延迟乘数
+  position_lr_max_steps: 30000   # 位置学习率最大步数
+  
+  scaling_lr: 0.005              # 标准缩放学习率
+  rotation_lr: 0.001             # 旋转学习率
+  opacity_lr: 0.05               # 透明度学习率
+  feature_lr: 0.0025             # 特征学习率
+  
+  # Advanced parameters for better quality
+  lambda_dssim: 0.2              # SSIM损失权重
+  sh_degree: 3                   # 球面谐波度数
+  convert_SHs_python: false      # 使用CUDA加速
+  compute_cov3D_python: false    # 使用CUDA加速
+  
+  # Test and save iterations
+  test_iterations: [7000, 10000, 15000, 20000, 30000]
+  save_iterations: [7000,10000, 15000, 20000, 30000]
+  checkpoint_iterations: [7000,10000, 15000, 20000]  # 为继续训练保存检查点
+  # 其他参数
+  data_device: "cuda"            # 使用GPU加载数据
+  resolution: -1                 # 使用原始分辨率
+  white_background: false        # 保持原始背景
+  quiet: false                   # 显示训练进度
+  optimizer_type: "default"      # 使用默认优化器
+  
+  # Camera parameters
+  camera_extent: 1.0             # 相机范围
+
+
+# Post-processing
+post_processing:
+  enable_render: true
+  enable_metrics: true
+  enable_intermediate_eval: true
+
+# Setup
+setup:
+  install_accelerated_rasterizer: false

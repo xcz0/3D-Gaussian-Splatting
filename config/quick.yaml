@@ -1,0 +1,57 @@
+# Quick training configuration - 3000 iterations for fast testing
+name: "quick_test"
+description: "Quick test training with reduced iterations for fast validation"
+
+# Data paths
+paths:
+  source_path: "data"
+  model_path: "output/quick_test_model"
+
+# Training parameters
+training:
+  iterations: 1000
+  eval: true
+  disable_viewer: true  # 禁用GUI查看器避免端口冲突
+  
+  # 继续训练配置
+  resume_training: false
+  resume_from_iteration: -1
+  
+  # Densification parameters
+  densify_grad_threshold: 0.0008
+  densification_interval: 200
+  densify_until_iter: 2000
+  opacity_reset_interval: 2000
+  
+  # Learning rates
+  position_lr_init: 0.0008
+  position_lr_final: 0.000008
+  scaling_lr: 0.01
+  
+  # Test and save iterations
+  test_iterations: [500, 1000]
+  save_iterations: [500, 1000]  # 确保在500迭代时也保存检查点
+  checkpoint_iterations: [500]  # 为继续训练保存 .pth 检查点文件
+  
+  # Other parameters
+  data_device: "cpu"
+  resolution: 4
+  quiet: true
+  lambda_dssim: 0.2
+  optimizer_type: "default"
+
+# Post-processing settings
+post_processing:
+  enable_render: true
+  enable_metrics: true
+  enable_intermediate_eval: true
+
+# Setup options
+setup:
+  install_accelerated_rasterizer: false
+  rasterizer_branch: "3dgs_accel"
+
+# Post-processing
+post_processing:
+  enable_render: true
+  enable_metrics: true

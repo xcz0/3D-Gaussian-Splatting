@@ -1,0 +1,25 @@
+[project]
+name = "3D-Gaussian-Splatting"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "==3.8.20"
+dependencies = [
+    "plyfile",
+    "pip",
+    "torch",
+    "torchaudio",
+    "torchvision",
+    "tqdm",
+    "opencv-python",
+    "joblib",
+    'diff_gaussian_rasterization',
+    "simple-knn",
+    "fused-ssim",
+    "tensorboard>=2.14.0",
+]
+
+[tool.uv.sources]
+diff_gaussian_rasterization = { path = "./gaussian-splatting/submodules/diff-gaussian-rasterization" }
+simple_knn = { path = "./gaussian-splatting/submodules/simple-knn" }
+fused_ssim = { path = "./gaussian-splatting/submodules/fused-ssim" }
